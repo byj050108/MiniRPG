@@ -1,0 +1,10 @@
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.user
