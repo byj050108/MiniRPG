@@ -47,5 +47,8 @@
     <ClInclude Include="GameManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@ void GameManager::showMenu() const
 	cout << "Enter your choice here: ";
 }
 
+//主程序启动
 void GameManager::run()
 {
 	setupPlayer();
@@ -51,7 +52,7 @@ void GameManager::run()
 			Monster m(randomMonsterType());
 			m.show();
 			bool win = battle(player, m);
-			if (!win)
+			if (!win)                                   //失败则游戏结束
 			{
 				cout << "Game Over!\n";
 				running = false;
@@ -65,6 +66,7 @@ void GameManager::run()
 	}
 }
 
+//商店系统
 void GameManager::visitShop()
 {
 	const int POTION_PRICE = 30;

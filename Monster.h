@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
+#include "Character.h"
 
 enum class MonsterType { Slime, Goblin, Wolf, Count };
 enum class MonsterState { Aggressive, Defensive, Enraged, Dead };
 
-class Monster
+class Monster : public Character
 {
 public:
 	//函数声明
@@ -13,23 +14,16 @@ public:
 	std::string getStateName() const;
 	
 	//getter
-	std::string getName() const { return name; }
-	int getAtk() const { if (state == MonsterState::Enraged) { return atk*3/2; }return atk; }
-	int getDef() const { if (state == MonsterState::Defensive) { return def*3/2; }return def; }
+	int getAtk() const override { if (state == MonsterState::Enraged) { return atk*3/2; }return atk; }
+	int getDef() const override { if (state == MonsterState::Defensive) { return def*3/2; }return def; }
 	int getRewardGold() const { return rewardGold; }
 	int getDropChance() const { return dropChance; }
-	bool isAlive() const { return hp > 0; }
 	int getRewardExp() const { return rewardExp; }
 
 	//行为门
-	void takeDamage(int dmg) { hp -= dmg; updateState(); }
+	void takeDamage(int dmg) override { hp -= dmg; updateState(); }
 
 private:
-	std::string name;
-	int hp;
-	int maxHp;
-	int atk;
-	int def;
 	int rewardGold;
 	int dropChance;
 	int rewardExp;

@@ -5,3 +5,4 @@
 MonsterType randomMonsterType();
 bool rollChance(int percent);
 bool battle(Player& p, Monster& m);
+int dealDamage(const Character& attacker, Character& defender);

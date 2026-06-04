@@ -20,14 +20,20 @@ bool rollChance(int percent)
 	return dist(rng) < percent;					//使用同一个 rng
 }
 
+//多态处理伤害
+int dealDamage(const Character& attacker, Character& defender)           //伤害者不变, 防御者掉血
+{
+	int dmg = max(1, attacker.getAtk() - defender.getDef());
+	defender.takeDamage(dmg);
+	return dmg;
+}
 
 //战斗框架
 bool battle(Player& p, Monster& m)
 {
 	while (p.isAlive() && m.isAlive())
 	{
-		int p_dmg = max(1, p.getAtk() - m.getDef());
-		m.takeDamage(p_dmg);
+		int p_dmg = dealDamage(p, m);
 		cout << "You hit the " << m.getName() << ". The damage is " << p_dmg << endl;
 		if (m.isAlive())
 			cout << "The " << m.getName() << " is now " << m.getStateName() << "." << endl;
@@ -45,8 +51,7 @@ bool battle(Player& p, Monster& m)
 			cout << "You've got " << m.getRewardExp() << " Exp." << endl;
 			return true;
 		}
-		int m_dmg = max(1, m.getAtk() - p.getDef());
-		p.takeDamage(m_dmg);
+		int m_dmg = dealDamage(m, p);
 		cout << "The " << m.getName() << " hits you. The damage is " << m_dmg << endl;
 		//失败分支
 		if (!p.isAlive())
