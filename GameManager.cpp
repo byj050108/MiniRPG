@@ -30,7 +30,7 @@ void GameManager::showMenu() const
 //主程序启动
 void GameManager::run()
 {
-	MonsterFactory::loadFromFile("monsters.txt");   // 启动时读入怪物表（一次）
+	MonsterFactory::loadFromFile("monsters.csv");   // 启动时读入怪物表（一次）
 	setupPlayer();
 	while (running)
 	{

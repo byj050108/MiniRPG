@@ -23,6 +23,7 @@ void MonsterFactory::loadFromFile(const string& path)
     }
 
     string line;
+    bool headerSkipped = false;         // CSV 第一行是表头（列名），跳过
     while (getline(file, line))
     {
         // 处理 Windows 的 \r\n 换行：去掉行尾可能残留的 '\r'
@@ -32,6 +33,12 @@ void MonsterFactory::loadFromFile(const string& path)
         // 跳过空行和以 # 开头的注释行
         if (line.empty() || line[0] == '#')
             continue;
+
+        if (!headerSkipped)             // 第一行有效行是表头，跳过它
+        {
+            headerSkipped = true;
+            continue;
+        }
 
         // 按逗号切出 7 个字段
         stringstream ss(line);

@@ -2,15 +2,10 @@
 #include <iostream>
 using namespace std;
 
-//怪物种类
-
+//初始化怪物
 Monster::Monster(const std::string& name, int hp, int atk, int def,
 	int rewardGold, int dropChance, int rewardExp): Character(name,hp,atk,def), 
-	rewardGold(rewardGold), dropChance(dropChance), rewardExp(rewardExp) 
-{
-
-}
-
+	rewardGold(rewardGold), dropChance(dropChance), rewardExp(rewardExp) { }
 //更新怪物状态
 void Monster::updateState()
 {
