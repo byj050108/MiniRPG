@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Monster.h"
 #include "Battle.h"
+#include "MonsterFactory.h"
 #include <iostream>
 #include <limits>
 using namespace std;    
@@ -49,7 +50,7 @@ void GameManager::run()
 		case 4: player.usePotion(); break;
 		case 5:
 		{
-			Monster m(randomMonsterType());
+			Monster m = MonsterFactory::create(randomMonsterType());
 			m.show();
 			bool win = battle(player, m);
 			if (!win)                                   //失败则游戏结束

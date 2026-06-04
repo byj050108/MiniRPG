@@ -9,7 +9,8 @@ class Monster : public Character
 {
 public:
 	//函数声明
-	Monster(MonsterType type);
+	Monster(const std::string& name, int hp, int atk, int def,
+		int rewardGold, int dropChance, int rewardExp);
 	void show() const;
 	std::string getStateName() const;
 	
@@ -29,4 +30,5 @@ private:
 	int rewardExp;
 	void updateState();                                       
 	MonsterState state = MonsterState::Aggressive;
+	
 };
