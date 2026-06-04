@@ -66,7 +66,9 @@ Fight monsters to earn gold and EXP, buy potions to survive tougher fights, and 
 
 The project is evolving from a hardcoded demo into an extensible, data-driven game system. Phases are ordered by value, not just difficulty.
 
-### Phase 1 — Inheritance & Polymorphism `★★★★★`
+### Phase 1 — Inheritance & Polymorphism ✅ `★★★★★`
+
+> **Done.** Added a `Character` base class with `virtual getAtk()/getDef()/takeDamage()`; `Player` and `Monster` inherit from it, and `battle()` calls `dealDamage(Character&, Character&)` so combat dispatches dynamically.
 
 Refactor `Player` and `Monster` (which currently duplicate `atk`/`def`/`isAlive`/`takeDamage`) under a shared abstract base class:
 
@@ -89,7 +91,9 @@ Persist player state to disk with `fstream` and resume from a save on startup.
 - `Player::save(const std::string& filename)` / `Player::load(const std::string& filename)`
 - Serializes: name, HP, maxHP, level, EXP, gold, and inventory
 
-### Phase 3 — Factory Pattern & Data-Driven Design `★★★★`
+### Phase 3 — Factory Pattern & Data-Driven Design ✅ `★★★★`
+
+> **Done.** `MonsterFactory::loadFromFile("monsters.csv")` loads the monster table at startup and `createRandom()` spawns from it — adding a new monster is a one-line edit in `monsters.csv`, no code change or recompile.
 
 Replace the hardcoded `switch`-based monster creation with a factory, then move monster data out of the code entirely:
 
