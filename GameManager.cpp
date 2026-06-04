@@ -30,6 +30,7 @@ void GameManager::showMenu() const
 //主程序启动
 void GameManager::run()
 {
+	MonsterFactory::loadFromFile("monsters.txt");   // 启动时读入怪物表（一次）
 	setupPlayer();
 	while (running)
 	{
@@ -38,7 +39,7 @@ void GameManager::run()
 		if (!(cin >> num))      // 读数字失败了
 		{
 			cin.clear();        // 清掉错误标志，让 cin 恢复能用
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');  // ② 丢掉缓冲区里那行坏输入
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 丢掉缓冲区里那行坏输入
 			cout << "Please enter a number." << endl;
 			continue;           // 跳过下面的 switch，回去重新显示菜单
 		}
@@ -50,7 +51,7 @@ void GameManager::run()
 		case 4: player.usePotion(); break;
 		case 5:
 		{
-			Monster m = MonsterFactory::create(randomMonsterType());
+			Monster m = MonsterFactory::createRandom();
 			m.show();
 			bool win = battle(player, m);
 			if (!win)                                   //失败则游戏结束

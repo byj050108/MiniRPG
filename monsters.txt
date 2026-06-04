@@ -1,0 +1,4 @@
+# name,hp,atk,def,rewardGold,dropChance,rewardExp
+Slime,30,8,2,20,30,30
+Goblin,50,12,4,35,50,50
+Wolf,35,18,1,40,60,80

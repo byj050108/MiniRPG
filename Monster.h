@@ -2,7 +2,6 @@
 #include <string>
 #include "Character.h"
 
-enum class MonsterType { Slime, Goblin, Wolf, Count };
 enum class MonsterState { Aggressive, Defensive, Enraged, Dead };
 
 class Monster : public Character

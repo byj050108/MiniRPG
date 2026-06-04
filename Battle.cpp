@@ -4,14 +4,7 @@
 #include <random>      // mt19937 等要用
 using namespace std;
 
-static std::mt19937 rng(std::random_device{}());   // 整个文件共享这一个引擎
-
-//随机创建怪物
-MonsterType randomMonsterType()
-{
-	uniform_int_distribution<int> dist(0, static_cast<int>(MonsterType::Count) - 1);   // 区间动态变化
-	return static_cast<MonsterType>(dist(rng));                  // 用共享的 rng
-}
+static std::mt19937 rng(std::random_device{}());   // rollChance 用的随机引擎
 
 //血药掉落概率
 bool rollChance(int percent)
