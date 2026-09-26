@@ -19,10 +19,9 @@ void GameManager::showMenu() const
 	cout << "==== Mini RPG ====" << endl;
 	cout << "1. Show Player Info" << endl;
 	cout << "2. Show Bag" << endl;
-	cout << "3. Get Potion" << endl;
-	cout << "4. Use Potion" << endl;
-	cout << "5. Battle" << endl;
-	cout << "6. Visit Shop" << endl;
+	cout << "3. Use Potion" << endl;
+	cout << "4. Battle" << endl;
+	cout << "5. Visit Shop" << endl;
 	cout << "0. Exit" << endl;
 	cout << "Enter your choice here: ";
 }
@@ -47,11 +46,10 @@ void GameManager::run()
 		{
 		case 1: player.show(); break;
 		case 2: player.showBag(); break;
-		case 3: player.addPotion(); break;
-		case 4: player.usePotion(); break;
-		case 5:
+		case 3: player.usePotion(); break;
+		case 4:
 		{
-			Monster m = MonsterFactory::createRandom();
+			Monster m = MonsterFactory::createRandom(player.getLevel());
 			m.show();
 			bool win = battle(player, m);
 			if (!win)                                   //失败则游戏结束
@@ -61,7 +59,7 @@ void GameManager::run()
 			}
 			break;
 		}
-		case 6: visitShop(); break;
+		case 5: visitShop(); break;
 		case 0: running = false; break;
 		default: cout << "Invalid choice" << endl; break;
 		}

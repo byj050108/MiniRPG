@@ -16,6 +16,7 @@ public:
 
 	// getter
 	int getGold() const { return gold; }
+	int getLevel() const { return level; }
 	bool isEnough(int cost) const { return gold >= cost; }
 
 	// 行为门

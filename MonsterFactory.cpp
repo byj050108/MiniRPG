@@ -40,7 +40,7 @@ void MonsterFactory::loadFromFile(const string& path)
             continue;
         }
 
-        // 按逗号切出 7 个字段
+        // 按逗号切出 8 个字段
         stringstream ss(line);
         MonsterData d;
         string field;
@@ -53,10 +53,18 @@ void MonsterFactory::loadFromFile(const string& path)
             getline(ss, field, ','); d.rewardGold = stoi(field);
             getline(ss, field, ','); d.dropChance = stoi(field);
             getline(ss, field, ','); d.rewardExp = stoi(field);
+            getline(ss, field, ','); d.minLevel = stoi(field);
         }
         catch (const exception&)        // stoi 遇到非法数字会抛异常
         {
             cout << "[Warning] Skipped malformed line: " << line << endl;
+            continue;
+        }
+        if (d.name.empty() || d.hp <= 0 || d.atk < 0 || d.def < 0 ||
+            d.rewardGold < 0 || d.dropChance < 0 || d.dropChance > 100 ||
+            d.rewardExp < 0 || d.minLevel < 1)
+        {
+            cout << "[Warning] Skipped invalid monster stats: " << line << endl;
             continue;
         }
         data.push_back(d);
@@ -65,8 +73,8 @@ void MonsterFactory::loadFromFile(const string& path)
     cout << "Loaded " << data.size() << " monster types." << endl;
 }
 
-// 随机造一只怪
-Monster MonsterFactory::createRandom()
+// 从玩家当前等级可遇到的怪物中随机造一只
+Monster MonsterFactory::createRandom(int playerLevel)
 {
     if (data.empty())   // 兜底：文件没读到时不崩溃，给个默认史莱姆
     {
@@ -74,7 +82,19 @@ Monster MonsterFactory::createRandom()
         return Monster("Slime", 30, 8, 2, 20, 30, 30);
     }
 
-    uniform_int_distribution<size_t> dist(0, data.size() - 1);
-    const MonsterData& d = data[dist(rng)];
+    vector<const MonsterData*> eligible;
+    for (const MonsterData& monster : data)
+    {
+        if (monster.minLevel <= playerLevel)
+            eligible.push_back(&monster);
+    }
+    if (eligible.empty())
+    {
+        cout << "[Error] No monsters available for this level! Using a default Slime." << endl;
+        return Monster("Slime", 30, 8, 2, 20, 30, 30);
+    }
+
+    uniform_int_distribution<size_t> dist(0, eligible.size() - 1);
+    const MonsterData& d = *eligible[dist(rng)];
     return Monster(d.name, d.hp, d.atk, d.def, d.rewardGold, d.dropChance, d.rewardExp);
 }
