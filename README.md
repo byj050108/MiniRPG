@@ -30,7 +30,9 @@ A turn-based console RPG written in modern C++ (C++11 and later). Built as a han
 | `GameManager.{h,cpp}` | Game loop, menus, all UI and input |
 | `Player.{h,cpp}` | Player state and behavior (stats, EXP/level, inventory, gold) |
 | `Monster.{h,cpp}` | Monster definitions and HP-driven state machine |
-| `Battle.{h,cpp}` | Combat logic and RNG (monster spawn, drop rolls) |
+| `Battle.{h,cpp}` | Combat logic and drop rolls |
+| `MonsterFactory.{h,cpp}` | Loads monster data and selects enemies by player level |
+| `monsters.csv` | Monster stats and minimum encounter level |
 | `Item.h` | Item data structure |
 
 The design separates three concerns: **GameManager** owns all I/O, **Player/Monster** own data and behavior, and **Battle** owns the combat rules — so each layer can change without touching the others.
@@ -43,7 +45,7 @@ Open `Mini RPG Adventure Demo.vcxproj` and build (Ctrl+F5).
 ### Command line (g++)
 
 ```bash
-g++ -std=c++17 main.cpp GameManager.cpp Player.cpp Monster.cpp Battle.cpp -o MiniRPG
+g++ -std=c++17 main.cpp GameManager.cpp Player.cpp Monster.cpp MonsterFactory.cpp Battle.cpp -o MiniRPG
 ./MiniRPG
 ```
 
@@ -53,14 +55,13 @@ g++ -std=c++17 main.cpp GameManager.cpp Player.cpp Monster.cpp Battle.cpp -o Min
 ==== Mini RPG ====
 1. Show Player Info
 2. Show Bag
-3. Get Potion
-4. Use Potion
-5. Battle
-6. Visit Shop
+3. Use Potion
+4. Battle
+5. Visit Shop
 0. Exit
 ```
 
-Fight monsters to earn gold and EXP, buy potions to survive tougher fights, and level up to grow stronger.
+Fight monsters to earn gold and EXP, buy potions to survive tougher fights, and level up to grow stronger. The Boss enters the random encounter pool at level 3.
 
 ## Roadmap
 
@@ -93,7 +94,7 @@ Persist player state to disk with `fstream` and resume from a save on startup.
 
 ### Phase 3 — Factory Pattern & Data-Driven Design ✅ `★★★★`
 
-> **Done.** `MonsterFactory::loadFromFile("monsters.csv")` loads the monster table at startup and `createRandom()` spawns from it — adding a new monster is a one-line edit in `monsters.csv`, no code change or recompile.
+> **Done.** `MonsterFactory::loadFromFile("monsters.csv")` loads the monster table at startup and `createRandom()` spawns from it — adding a new monster is a one-line edit in `monsters.csv`, no code change or recompile. The `minLevel` column controls when a monster can appear.
 
 Replace the hardcoded `switch`-based monster creation with a factory, then move monster data out of the code entirely:
 
